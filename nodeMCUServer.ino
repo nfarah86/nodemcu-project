@@ -1,21 +1,3 @@
-/*
-  ESP8266 mDNS responder sample
-
-  This is an example of an HTTP server that is accessible
-  via http://esp8266.local URL thanks to mDNS responder.
-
-  Instructions:
-  - Update WiFi SSID and password as necessary.
-  - Flash the sketch to the ESP8266 board
-  - Install host software:
-    - For Linux, install Avahi (http://avahi.org/).
-    - For Windows, install Bonjour (http://www.apple.com/support/bonjour/).
-    - For Mac OSX and iOS support is built in through Bonjour already.
-  - Point your browser to http://esp8266.local, you should see a response.
-
- */
-
-
 #include <ESP8266WiFi.h>
 #include <ESP8266mDNS.h>
 #include <WiFiClient.h>
@@ -49,6 +31,9 @@ void setup(void)
   // Start TCP (HTTP) server
   server.begin();
   Serial.println("TCP server started");
+
+  pinMode(D0, OUTPUT);
+  pinMode(D4, OUTPUT);
 
 }
 
@@ -87,8 +72,21 @@ void loop(void)
   String s;
   IPAddress ip = WiFi.localIP();
   
-  if (req == "/?piezoBuzzer=piezo1")
-  {
+  if (req == "/?piezoBuzzer=piezo1") {
+    String ipStr = String(ip[0]) + '.' + String(ip[1]) + '.' + String(ip[2]) + '.' + String(ip[3]);
+    s = "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n<!DOCTYPE HTML>\r\n<html>Hello from ESP8266 at ";
+    s += ipStr;
+    s += "</html>\r\n\r\n";
+    Serial.println("Sending 200");
+
+    digitalWrite(D0, LOW);
+    digitalWrite(D4, HIGH);
+    delay(1000);
+    digitalWrite(D0, HIGH);
+    digitalWrite(D4, LOW);
+    delay(1000);
+  }
+  else if (req == "/?piezoBuzzer=piezo2" ) {
     String ipStr = String(ip[0]) + '.' + String(ip[1]) + '.' + String(ip[2]) + '.' + String(ip[3]);
     s = "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n<!DOCTYPE HTML>\r\n<html>Hello from ESP8266 at ";
     s += ipStr;
@@ -97,21 +95,11 @@ void loop(void)
 
     //do something with the module
   }
-  else if (req == "/?piezoBuzzer=piezo2" )
-  {
-    String ipStr = String(ip[0]) + '.' + String(ip[1]) + '.' + String(ip[2]) + '.' + String(ip[3]);
-    s = "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n<!DOCTYPE HTML>\r\n<html>Hello from ESP8266 at ";
-    s += ipStr;
-    s += "</html>\r\n\r\n";
-    Serial.println("Sending 200");
-
-    //do something with the module
-  }
-   else
-   { 
+   else { 
       s = "HTTP/1.1 404 Not Found\r\n\r\n";
       Serial.println("Sending 404");
     }
+  
   client.print(s);
   Serial.println("Done with client");
 }

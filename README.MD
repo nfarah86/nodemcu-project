@@ -1,2 +1,5 @@
 # NodeMCU Sing Along 
 [NodeMCU](http://nodemcu.com/index_en.html) is an open source hardware project that is equipped with ESP8266 wifi module. I created a simple webpage that has two buttons. When the buttons are pressed, a get request is made to the server created by the NodeMCU device. Depending on which button is pressed, a specific song is played. 
+
+# Navigating Through Various IDE's for NodeMCU
+I first went through [Esplorer](http://esp8266.ru/esplorer/), then through [Arduino IDE version 1.6.8](https://www.arduino.cc/), and finally has much success with [platform.io](http://platform.io/) and [CoolTerm](http://freeware.the-meiers.org/). Some issues ecountered with the Arduino IDE was with WiFi connection. WiFi connection was not reliable, even though there were no issues with blinking the onboard LED.   

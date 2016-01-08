@@ -1,1 +1,2 @@
-# NodeMCU Musical Project
+# NodeMCU Sing Along 
+[NodeMCU](http://nodemcu.com/index_en.html) is an open source hardware project that is equipped with ESP8266 wifi module. I created a simple webpage that has two buttons. When the buttons are pressed, a get request is made to the server created by the NodeMCU device. Depending on which button is pressed, a specific song is played. 
